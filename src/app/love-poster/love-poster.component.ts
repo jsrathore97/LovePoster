@@ -1,14 +1,9 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
-  Component,
-  OnInit,
-  inject
-} from '@angular/core';
-
-import {
-  ActivatedRoute
-} from '@angular/router';
-import { LovePosterService } from '../services/love-poster.service';
-
+  LovePosterService,
+  LovePoster
+} from '../services/love-poster.service';
 
 @Component({
   selector: 'app-love-poster',
@@ -19,29 +14,33 @@ import { LovePosterService } from '../services/love-poster.service';
 export class LovePosterComponent implements OnInit {
 
   private route = inject(ActivatedRoute);
+  private posterService = inject(LovePosterService);
 
-  private posterService =
-    inject(LovePosterService);
-
-  poster: any = null;
+  poster?: LovePoster;
+  loading = true;
+  error = false;
 
   ngOnInit(): void {
 
-    this.route.paramMap.subscribe(params => {
-  const id = params.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
 
-  if (id) {
-    this.lovePosterService
-      .getPoster(id)
-      .subscribe({
-        next: poster => {
-          this.poster = poster;
-        },
-        error: error => {
-          console.error(error);
-        }
-      });
-  }
-});
+    if (!id) {
+      this.error = true;
+      this.loading = false;
+      return;
+    }
+
+    this.posterService.getPoster(id).subscribe({
+      next: (poster: LovePoster) => {
+        this.poster = poster;
+        this.loading = false;
+      },
+
+      error: (error: unknown) => {
+        console.error('Failed to load poster:', error);
+        this.error = true;
+        this.loading = false;  
+      }
+    });
   }
 }
