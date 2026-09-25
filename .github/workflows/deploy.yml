@@ -46,6 +46,9 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Create GitHub Pages SPA fallback
+        run: cp dist/love-poster/browser/index.html dist/love-poster/browser/404.html
+
       - name: Upload Angular build
         uses: actions/upload-pages-artifact@v4
         with:
