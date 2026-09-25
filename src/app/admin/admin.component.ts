@@ -547,37 +547,26 @@ export class AdminComponent {
          */
         next: response => {
 
-          console.log(
-            'Poster created:',
-            response
-          );
+  console.log('Poster created:', response);
 
-          this.isSubmitting = false;
+  this.isSubmitting = false;
 
-          /**
-           * Generate public GitHub Pages URL
-           *
-           * IMPORTANT:
-           * /LovePoster/ is your GitHub
-           * repository base path.
-           */
-          this.posterUrl =
-            `${window.location.origin}/LovePoster/user/${response.id}`;
+  this.posterUrl =
+    `${window.location.origin}${
+      window.location.pathname.startsWith('/LovePoster')
+        ? '/LovePoster'
+        : ''
+    }/user/${response.id}`;
 
-          /**
-           * Scroll to generated URL
-           */
-          setTimeout(() => {
+  setTimeout(() => {
+    document
+      .querySelector('.success-box')
+      ?.scrollIntoView({
+        behavior: 'smooth'
+      });
+  }, 100);
 
-            document
-              .querySelector('.success-box')
-              ?.scrollIntoView({
-                behavior: 'smooth'
-              });
-
-          }, 100);
-
-        },
+},
 
         /**
          * Firebase/API error
