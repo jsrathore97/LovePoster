@@ -4,8 +4,8 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { LovePosterService } from '../services/love-poster.service';
 
+import { LovePosterService } from '../services/love-poster.service';
 
 @Component({
   selector: 'app-admin',
@@ -68,7 +68,9 @@ export class AdminComponent {
 
     const file = input.files[0];
 
-    // Basic validation
+    /**
+     * Basic validation
+     */
     if (!file.type.startsWith('image/')) {
 
       alert('Please select a valid image.');
@@ -118,9 +120,7 @@ export class AdminComponent {
        * Store Base64 in form
        */
       this.posterForm.patchValue({
-
         image: compressedBase64
-
       });
 
     } catch (error) {
@@ -133,6 +133,12 @@ export class AdminComponent {
       alert(
         'Unable to process this image. Please try another image.'
       );
+
+      this.imagePreview = '';
+
+      this.posterForm.patchValue({
+        image: ''
+      });
 
     } finally {
 
@@ -155,16 +161,12 @@ export class AdminComponent {
 
     /**
      * Maximum dimensions
-     *
-     * 600x600 is more than enough
-     * for your romantic poster.
      */
     const maxWidth = 600;
     const maxHeight = 600;
 
     let width = image.naturalWidth;
     let height = image.naturalHeight;
-
 
     /**
      * Calculate resize ratio
@@ -188,7 +190,6 @@ export class AdminComponent {
 
     }
 
-
     /**
      * Create canvas
      */
@@ -197,7 +198,6 @@ export class AdminComponent {
 
     canvas.width = width;
     canvas.height = height;
-
 
     const context =
       canvas.getContext('2d');
@@ -210,14 +210,11 @@ export class AdminComponent {
 
     }
 
-
     /**
      * Better image rendering
      */
     context.imageSmoothingEnabled = true;
-
     context.imageSmoothingQuality = 'high';
-
 
     /**
      * Draw resized image
@@ -230,21 +227,15 @@ export class AdminComponent {
       height
     );
 
-
     /**
-     * Target size
+     * Target size.
      *
-     * JSON Server limit:
-     * 102400 bytes
-     *
-     * We intentionally target
-     * around 65 KB so that the
-     * complete JSON request stays
-     * safely below 100 KB.
+     * Firebase can handle much larger
+     * data, but keeping the image small
+     * makes the application faster.
      */
     const targetSize =
       65 * 1024;
-
 
     /**
      * Start with good quality
@@ -257,18 +248,13 @@ export class AdminComponent {
         quality
       );
 
-
     /**
      * Reduce quality until
      * image is small enough.
      */
     while (
-
-      this.getBase64Size(base64)
-        > targetSize
-
-      && quality > 0.20
-
+      this.getBase64Size(base64) > targetSize &&
+      quality > 0.20
     ) {
 
       quality -= 0.05;
@@ -281,22 +267,16 @@ export class AdminComponent {
 
     }
 
-
     /**
      * If still too large,
-     * progressively reduce
-     * dimensions.
+     * progressively reduce dimensions.
      */
     let currentWidth = width;
     let currentHeight = height;
 
     while (
-
-      this.getBase64Size(base64)
-        > targetSize
-
-      && currentWidth > 300
-
+      this.getBase64Size(base64) > targetSize &&
+      currentWidth > 300
     ) {
 
       currentWidth =
@@ -305,10 +285,8 @@ export class AdminComponent {
       currentHeight =
         Math.round(currentHeight * 0.85);
 
-
       canvas.width = currentWidth;
       canvas.height = currentHeight;
-
 
       context.clearRect(
         0,
@@ -316,7 +294,6 @@ export class AdminComponent {
         currentWidth,
         currentHeight
       );
-
 
       context.drawImage(
         image,
@@ -326,10 +303,8 @@ export class AdminComponent {
         currentHeight
       );
 
-
       /**
-       * Reset quality after
-       * resizing.
+       * Reset quality after resizing.
        */
       quality = 0.75;
 
@@ -339,17 +314,12 @@ export class AdminComponent {
           quality
         );
 
-
       /**
        * Reduce quality again if needed.
        */
       while (
-
-        this.getBase64Size(base64)
-          > targetSize
-
-        && quality > 0.20
-
+        this.getBase64Size(base64) > targetSize &&
+        quality > 0.20
       ) {
 
         quality -= 0.05;
@@ -364,13 +334,11 @@ export class AdminComponent {
 
     }
 
-
     /**
      * Final safety check
      */
     const finalSize =
       this.getBase64Size(base64);
-
 
     if (finalSize > 80 * 1024) {
 
@@ -379,7 +347,6 @@ export class AdminComponent {
       );
 
     }
-
 
     return base64;
 
@@ -399,19 +366,14 @@ export class AdminComponent {
         const reader =
           new FileReader();
 
-
         reader.onload = () => {
 
           const image =
             new Image();
 
-
           image.onload = () => {
-
             resolve(image);
-
           };
-
 
           image.onerror = () => {
 
@@ -423,12 +385,10 @@ export class AdminComponent {
 
           };
 
-
           image.src =
             reader.result as string;
 
         };
-
 
         reader.onerror = () => {
 
@@ -439,7 +399,6 @@ export class AdminComponent {
           );
 
         };
-
 
         reader.readAsDataURL(file);
 
@@ -459,10 +418,6 @@ export class AdminComponent {
     const base64Data =
       base64.split(',')[1] || '';
 
-
-    /**
-     * Base64 decoded size
-     */
     return Math.ceil(
       (base64Data.length * 3) / 4
     );
@@ -500,10 +455,8 @@ export class AdminComponent {
           Math.pow(1024, index)
         ).toFixed(2)
       )
-      +
-      ' '
-      +
-      units[index]
+      + ' '
+      + units[index]
     );
 
   }
@@ -514,6 +467,9 @@ export class AdminComponent {
    */
   createPoster(): void {
 
+    /**
+     * Validate form
+     */
     if (this.posterForm.invalid) {
 
       this.posterForm.markAllAsTouched();
@@ -521,7 +477,6 @@ export class AdminComponent {
       return;
 
     }
-
 
     /**
      * Don't submit while image
@@ -537,13 +492,28 @@ export class AdminComponent {
 
     }
 
+    /**
+     * Prevent duplicate submissions
+     */
+    if (this.isSubmitting) {
+      return;
+    }
 
     this.isSubmitting = true;
 
+    /**
+     * Generate ID once.
+     *
+     * This same ID will be:
+     * 1. Saved in Firebase
+     * 2. Used in the public URL
+     */
+    const posterId =
+      this.generateId();
 
     const poster = {
 
-      id: this.generateId(),
+      id: posterId,
 
       name:
         this.posterForm.value.name!.trim(),
@@ -555,7 +525,6 @@ export class AdminComponent {
         this.posterForm.value.message!.trim()
 
     };
-
 
     console.log(
       'Sending poster:',
@@ -569,11 +538,13 @@ export class AdminComponent {
       }
     );
 
-
     this.posterService
       .createPoster(poster)
       .subscribe({
 
+        /**
+         * Successfully created
+         */
         next: response => {
 
           console.log(
@@ -581,20 +552,20 @@ export class AdminComponent {
             response
           );
 
-
           this.isSubmitting = false;
 
-
           /**
-           * Generate public URL
+           * Generate public GitHub Pages URL
+           *
+           * IMPORTANT:
+           * /LovePoster/ is your GitHub
+           * repository base path.
            */
           this.posterUrl =
-            `${window.location.origin}/user/${response.id}`;
-
+            `${window.location.origin}/LovePoster/user/${response.id}`;
 
           /**
-           * Optional: scroll to
-           * generated URL
+           * Scroll to generated URL
            */
           setTimeout(() => {
 
@@ -608,7 +579,9 @@ export class AdminComponent {
 
         },
 
-
+        /**
+         * Firebase/API error
+         */
         error: error => {
 
           console.error(
@@ -616,12 +589,15 @@ export class AdminComponent {
             error
           );
 
-
           this.isSubmitting = false;
 
-
+          /**
+           * Keep the old 413 handling.
+           * It is harmless if you are now
+           * using Firebase.
+           */
           if (
-            error.status === 413
+            error?.status === 413
           ) {
 
             alert(
@@ -665,21 +641,24 @@ export class AdminComponent {
       return;
     }
 
-
     navigator.clipboard
       .writeText(this.posterUrl)
       .then(() => {
 
         alert(
-          'Love Poster link copied! ❤️'
+          'Love Poster link copied!'
         );
 
       })
       .catch(error => {
 
         console.error(
-          'Copy failed:',
+          'Unable to copy link:',
           error
+        );
+
+        alert(
+          'Unable to copy the link. Please copy it manually.'
         );
 
       });
