@@ -33,12 +33,13 @@ jobs:
         run: npm ci
 
       - name: Build Angular app
-        run: npm run build -- --configuration production
+        run: npm run build -- --configuration production --base-href /LovePoster/
 
       - name: Show build output
         run: |
           echo "===== DIST CONTENTS ====="
           find dist -maxdepth 4 -type f | head -100
+
           echo "===== INDEX FILES ====="
           find dist -name index.html -print
 

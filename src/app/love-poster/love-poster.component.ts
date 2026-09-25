@@ -27,14 +27,11 @@ export class LovePosterComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const id =
-      this.route.snapshot.paramMap.get('id');
+    this.route.paramMap.subscribe(params => {
+  const id = params.get('id');
 
-    if (!id) {
-      return;
-    }
-
-    this.posterService
+  if (id) {
+    this.lovePosterService
       .getPoster(id)
       .subscribe({
         next: poster => {
@@ -44,5 +41,7 @@ export class LovePosterComponent implements OnInit {
           console.error(error);
         }
       });
+  }
+});
   }
 }
