@@ -1,0 +1,282 @@
+<div class="admin-page">
+
+  <div class="container py-5">
+
+    <div class="admin-card">
+
+      <!-- Header -->
+
+      <div class="text-center mb-4">
+
+        <div class="heart-icon">
+          ❤️
+        </div>
+
+        <h1>
+          Love Poster
+        </h1>
+
+        <p>
+          Create a beautiful message for someone special.
+        </p>
+
+      </div>
+
+
+      <!-- Form -->
+
+      <form
+        [formGroup]="posterForm"
+        (ngSubmit)="createPoster()"
+      >
+
+        <!-- Partner Name -->
+
+        <div class="mb-4">
+
+          <label
+            for="name"
+            class="form-label"
+          >
+            Name of your partner
+          </label>
+
+          <input
+            id="name"
+            type="text"
+            class="form-control form-control-lg"
+            formControlName="name"
+            placeholder="Enter your partner's name"
+          >
+
+          @if (
+            posterForm.controls.name.touched &&
+            posterForm.controls.name.invalid
+          ) {
+
+            <div class="text-danger mt-2">
+
+              Please enter your partner's name.
+
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- Partner Image -->
+
+        <div class="mb-4">
+
+          <label
+            for="image"
+            class="form-label"
+          >
+            Image of your partner
+          </label>
+
+          <input
+            id="image"
+            type="file"
+            class="form-control form-control-lg"
+            accept="image/jpeg,image/png,image/webp"
+            (change)="onImageSelected($event)"
+          >
+
+          <div class="form-text">
+
+            Your image will automatically be resized
+            and compressed for faster loading.
+
+          </div>
+
+        </div>
+
+
+        <!-- Compression Loader -->
+
+        @if (isCompressing) {
+
+          <div class="compression-box mb-4">
+
+            <div
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+            ></div>
+
+            Optimizing your image...
+
+          </div>
+
+        }
+
+
+        <!-- Image Preview -->
+
+        @if (imagePreview) {
+
+          <div class="image-preview mb-4">
+
+            <img
+              [src]="imagePreview"
+              alt="Partner preview"
+            >
+
+            <div class="image-info">
+
+              ❤️ Image optimized
+
+              <strong>
+                {{ imageSizeKB }} KB
+              </strong>
+
+            </div>
+
+          </div>
+
+        }
+
+
+        <!-- Message -->
+
+        <div class="mb-4">
+
+          <label
+            for="message"
+            class="form-label"
+          >
+            Message
+          </label>
+
+          <textarea
+            id="message"
+            class="form-control"
+            rows="6"
+            formControlName="message"
+            placeholder="Write something from your heart..."
+          ></textarea>
+
+
+          @if (
+            posterForm.controls.message.touched &&
+            posterForm.controls.message.invalid
+          ) {
+
+            <div class="text-danger mt-2">
+
+              Please write a message
+              (minimum 10 characters).
+
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- Submit -->
+
+        <button
+          type="submit"
+          class="btn btn-danger btn-lg w-100"
+          [disabled]="
+            isSubmitting ||
+            isCompressing
+          "
+        >
+
+          @if (
+            !isSubmitting &&
+            !isCompressing
+          ) {
+
+            ❤️ Create Love Poster
+
+          }
+
+
+          @if (isCompressing) {
+
+            Optimizing Image...
+
+          }
+
+
+          @if (
+            isSubmitting &&
+            !isCompressing
+          ) {
+
+            Creating Poster...
+
+          }
+
+        </button>
+
+      </form>
+
+
+      <!-- Success -->
+
+      @if (posterUrl) {
+
+        <div class="success-box mt-4">
+
+          <div class="success-icon">
+            💕
+          </div>
+
+          <h4>
+            Your Love Poster is Ready!
+          </h4>
+
+          <p>
+            Share this link with your special person.
+          </p>
+
+
+          <div class="link-box">
+
+            {{ posterUrl }}
+
+          </div>
+
+
+          <div
+            class="d-flex gap-2 mt-3"
+          >
+
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              (click)="copyLink()"
+            >
+
+              📋 Copy Link
+
+            </button>
+
+
+            <a
+              [href]="posterUrl"
+              target="_blank"
+              rel="noopener"
+              class="btn btn-danger"
+            >
+
+              ❤️ Open Poster
+
+            </a>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

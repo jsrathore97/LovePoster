@@ -1,0 +1,280 @@
+.admin-page {
+
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #ffe6ec,
+      #fff5f7 45%,
+      #ffffff
+    );
+
+  padding: 30px 0;
+
+}
+
+
+.admin-card {
+
+  max-width: 700px;
+
+  margin: auto;
+
+  padding: 45px;
+
+  background:
+    rgba(255, 255, 255, 0.95);
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 20px 60px
+    rgba(180, 40, 80, 0.12);
+
+}
+
+
+.heart-icon {
+
+  font-size: 55px;
+
+  animation:
+    heartbeat 1.5s infinite;
+
+}
+
+
+.admin-card h1 {
+
+  font-weight: 700;
+
+  color: #c2185b;
+
+}
+
+
+.admin-card p {
+
+  color: #777;
+
+}
+
+
+.form-label {
+
+  font-weight: 600;
+
+  color: #5f2638;
+
+}
+
+
+.form-control {
+
+  border-radius: 14px;
+
+  border: 1px solid #f0ccd7;
+
+  padding: 14px;
+
+}
+
+
+.form-control:focus {
+
+  border-color: #e91e63;
+
+  box-shadow:
+    0 0 0 0.2rem
+    rgba(233, 30, 99, 0.1);
+
+}
+
+
+.compression-box {
+
+  padding: 14px 18px;
+
+  border-radius: 12px;
+
+  background: #fff4f7;
+
+  color: #c2185b;
+
+  border: 1px solid #ffd1dc;
+
+}
+
+
+/* Image preview */
+
+.image-preview {
+
+  text-align: center;
+
+  padding: 20px;
+
+  border-radius: 20px;
+
+  background: #fff8fa;
+
+}
+
+
+.image-preview img {
+
+  width: 180px;
+
+  height: 180px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  border: 5px solid white;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.15);
+
+}
+
+
+.image-info {
+
+  margin-top: 15px;
+
+  color: #c2185b;
+
+  font-size: 14px;
+
+}
+
+
+.image-info strong {
+
+  margin-left: 5px;
+
+}
+
+
+/* Success */
+
+.success-box {
+
+  padding: 25px;
+
+  border-radius: 20px;
+
+  background: #fff0f4;
+
+  border: 1px solid #ffc5d4;
+
+}
+
+
+.success-icon {
+
+  font-size: 40px;
+
+}
+
+
+.success-box h4 {
+
+  color: #c2185b;
+
+}
+
+
+.link-box {
+
+  background: white;
+
+  padding: 14px;
+
+  border-radius: 10px;
+
+  word-break: break-all;
+
+  color: #c2185b;
+
+  border: 1px solid #f5d4de;
+
+}
+
+
+/* Button */
+
+.btn-danger {
+
+  background: #e91e63;
+
+  border-color: #e91e63;
+
+  border-radius: 14px;
+
+  font-weight: 600;
+
+}
+
+
+.btn-danger:hover {
+
+  background: #c2185b;
+
+  border-color: #c2185b;
+
+}
+
+
+/* Heart animation */
+
+@keyframes heartbeat {
+
+  0%,
+  100% {
+
+    transform: scale(1);
+
+  }
+
+  50% {
+
+    transform: scale(1.15);
+
+  }
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 576px) {
+
+  .admin-page {
+
+    padding: 15px 0;
+
+  }
+
+
+  .admin-card {
+
+    padding: 30px 20px;
+
+    border-radius: 20px;
+
+  }
+
+
+  .image-preview img {
+
+    width: 150px;
+
+    height: 150px;
+
+  }
+
+}

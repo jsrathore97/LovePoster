@@ -1,0 +1,73 @@
+@if (poster) {
+
+  <div class="love-page">
+
+    <!-- Floating hearts -->
+
+    <div class="hearts">
+
+      <span>❤️</span>
+      <span>💕</span>
+      <span>💗</span>
+      <span>💖</span>
+      <span>❤️</span>
+      <span>💕</span>
+
+    </div>
+
+
+    <div class="love-content">
+
+      <div class="top-heart">
+        ❤️
+      </div>
+
+      <p class="small-title">
+        A message from the heart
+      </p>
+
+      <h1>
+        For {{ poster.name }}
+      </h1>
+
+
+      <div class="photo-container">
+
+        <div class="photo-glow"></div>
+
+        <img
+          [src]="poster.image"
+          [alt]="poster.name"
+        >
+
+      </div>
+
+
+      <div class="message-card">
+
+        <div class="quote">
+          “
+        </div>
+
+        <p>
+          {{ poster.message }}
+        </p>
+
+        <div class="quote-end">
+          ”
+        </div>
+
+      </div>
+
+
+      <div class="forever">
+
+        ❤️ Forever & Always ❤️
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
