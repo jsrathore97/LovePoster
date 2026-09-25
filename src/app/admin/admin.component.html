@@ -4,9 +4,11 @@
 
     <div class="admin-card">
 
-      <!-- Header -->
+      <!-- ========================================
+           Header
+      ========================================= -->
 
-      <div class="text-center mb-4">
+      <div class="admin-header text-center">
 
         <div class="heart-icon">
           ❤️
@@ -23,16 +25,50 @@
       </div>
 
 
-      <!-- Form -->
+      <!-- ========================================
+           Creator Profile
+      ========================================= -->
+
+      <div class="creator-mini">
+
+        <img
+          src="assets/jitendra.jpeg"
+          alt="Jitendra Singh Rathore"
+        >
+
+        <div class="creator-mini-content">
+
+          <span>
+            Created with ❤️ by
+          </span>
+
+          <strong>
+            Jitendra Singh Rathore
+          </strong>
+
+          <small>
+            Turning feelings into beautiful memories.
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <!-- ========================================
+           Form
+      ========================================= -->
 
       <form
         [formGroup]="posterForm"
         (ngSubmit)="createPoster()"
       >
 
-        <!-- Partner Name -->
+        <!-- ========================================
+             Partner Name
+        ========================================= -->
 
-        <div class="mb-4">
+        <div class="form-section mb-4">
 
           <label
             for="name"
@@ -54,7 +90,7 @@
             posterForm.controls.name.invalid
           ) {
 
-            <div class="text-danger mt-2">
+            <div class="validation-message">
 
               Please enter your partner's name.
 
@@ -65,9 +101,11 @@
         </div>
 
 
-        <!-- Partner Image -->
+        <!-- ========================================
+             Partner Image
+        ========================================= -->
 
-        <div class="mb-4">
+        <div class="form-section mb-4">
 
           <label
             for="image"
@@ -84,7 +122,7 @@
             (change)="onImageSelected($event)"
           >
 
-          <div class="form-text">
+          <div class="form-help">
 
             Your image will automatically be resized
             and compressed for faster loading.
@@ -94,38 +132,50 @@
         </div>
 
 
-        <!-- Compression Loader -->
+        <!-- ========================================
+             Compression Loader
+        ========================================= -->
 
         @if (isCompressing) {
 
           <div class="compression-box mb-4">
 
             <div
-              class="spinner-border spinner-border-sm me-2"
+              class="spinner-border spinner-border-sm"
               role="status"
             ></div>
 
-            Optimizing your image...
+            <span>
+              Optimizing your image...
+            </span>
 
           </div>
 
         }
 
 
-        <!-- Image Preview -->
+        <!-- ========================================
+             Image Preview
+        ========================================= -->
 
         @if (imagePreview) {
 
           <div class="image-preview mb-4">
 
-            <img
-              [src]="imagePreview"
-              alt="Partner preview"
-            >
+            <div class="preview-image-wrapper">
+
+              <img
+                [src]="imagePreview"
+                alt="Partner preview"
+              >
+
+            </div>
 
             <div class="image-info">
 
-              ❤️ Image optimized
+              <span>
+                ❤️ Image optimized
+              </span>
 
               <strong>
                 {{ imageSizeKB }} KB
@@ -138,9 +188,11 @@
         }
 
 
-        <!-- Message -->
+        <!-- ========================================
+             Message
+        ========================================= -->
 
-        <div class="mb-4">
+        <div class="form-section mb-4">
 
           <label
             for="message"
@@ -151,19 +203,18 @@
 
           <textarea
             id="message"
-            class="form-control"
+            class="form-control message-input"
             rows="6"
             formControlName="message"
             placeholder="Write something from your heart..."
           ></textarea>
-
 
           @if (
             posterForm.controls.message.touched &&
             posterForm.controls.message.invalid
           ) {
 
-            <div class="text-danger mt-2">
+            <div class="validation-message">
 
               Please write a message
               (minimum 10 characters).
@@ -175,11 +226,13 @@
         </div>
 
 
-        <!-- Submit -->
+        <!-- ========================================
+             Submit
+        ========================================= -->
 
         <button
           type="submit"
-          class="btn btn-danger btn-lg w-100"
+          class="create-button"
           [disabled]="
             isSubmitting ||
             isCompressing
@@ -191,14 +244,24 @@
             !isCompressing
           ) {
 
-            ❤️ Create Love Poster
+            <span>❤️</span>
+
+            <span>
+              Create Love Poster
+            </span>
 
           }
 
 
           @if (isCompressing) {
 
-            Optimizing Image...
+            <span
+              class="spinner-border spinner-border-sm"
+            ></span>
+
+            <span>
+              Optimizing Image...
+            </span>
 
           }
 
@@ -208,7 +271,13 @@
             !isCompressing
           ) {
 
-            Creating Poster...
+            <span
+              class="spinner-border spinner-border-sm"
+            ></span>
+
+            <span>
+              Creating Poster...
+            </span>
 
           }
 
@@ -217,11 +286,13 @@
       </form>
 
 
-      <!-- Success -->
+      <!-- ========================================
+           Success
+      ========================================= -->
 
       @if (posterUrl) {
 
-        <div class="success-box mt-4">
+        <div class="success-box">
 
           <div class="success-icon">
             💕
@@ -236,6 +307,8 @@
           </p>
 
 
+          <!-- Generated Link -->
+
           <div class="link-box">
 
             {{ posterUrl }}
@@ -243,13 +316,13 @@
           </div>
 
 
-          <div
-            class="d-flex gap-2 mt-3"
-          >
+          <!-- Success Actions -->
+
+          <div class="success-actions">
 
             <button
               type="button"
-              class="btn btn-outline-danger"
+              class="copy-button"
               (click)="copyLink()"
             >
 
@@ -262,7 +335,7 @@
               [href]="posterUrl"
               target="_blank"
               rel="noopener"
-              class="btn btn-danger"
+              class="open-button"
             >
 
               ❤️ Open Poster
@@ -274,6 +347,42 @@
         </div>
 
       }
+
+
+      <!-- ========================================
+           Footer
+      ========================================= -->
+
+      <footer class="admin-footer">
+
+        <div class="footer-creator">
+
+          <img
+            src="assets/jitendra.jpeg"
+            alt="Jitendra Singh Rathore"
+          >
+
+          <span>
+
+            Made with
+
+            <strong>
+              ♥
+            </strong>
+
+            by Jitendra Singh Rathore
+
+          </span>
+
+        </div>
+
+
+        <span class="footer-brand">
+          Love Poster
+        </span>
+
+      </footer>
+
 
     </div>
 
